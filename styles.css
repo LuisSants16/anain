@@ -6,7 +6,11 @@
   --yellow:#ffe066;
   --ink:#fffafc;
 }
-*{box-sizing:border-box}
+*{
+  box-sizing:border-box;
+  margin: 0;
+  padding: 0;
+}
 html,body{height:100%}
 body{
   margin:0; overflow:hidden; color:var(--ink);
@@ -17,12 +21,11 @@ body{
 /* escena */
 .scene{
   position: relative;
-  min-height: 100svh;      /* alto real del viewport en móvil */
-  width: 100%;
+  width: 100vw;
+  height: 100vh;
   display: grid;
   place-items: center;
-  isolation: isolate;
-  padding: 0;              /* sin aire arriba/abajo */
+  overflow: hidden;
 }
 
 /* bokeh pastel kawaii */
@@ -55,11 +58,13 @@ body{
 }
 @keyframes glimmer{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}
 
-/* svg corazón */
 .heart{
-  z-index: 2;
-  overflow: visible;
+  width: 100vw;          /* usa casi todo el ancho de la pantalla */
+  height: 100vw;         /* calcula la altura automáticamente */
+  display: block;
+  margin: auto;       /* centra horizontal */
 }
+
 .stroke{
   fill:none; stroke-width:16; stroke-linecap:round; stroke-linejoin:round;
   stroke-dasharray:1050; stroke-dashoffset:1050;
@@ -120,3 +125,4 @@ body{
     radial-gradient(2px 2px at 15% 70%, #fff, transparent 60%);
   animation:starsGlow 7s linear infinite; opacity:.5}
 @keyframes starsGlow{0%{opacity:.2}50%{opacity:.7}100%{opacity:.2}}
+

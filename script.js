@@ -47,29 +47,3 @@ window.addEventListener('load', ()=>{
   });
 });
 
-function resizeHeart() {
-  const heart = document.getElementById('heartSVG');
-  const screenW = window.innerWidth;
-  const screenH = window.innerHeight;
-
-  // relación del viewBox del corazón (1200/900 ≈ 1.33)
-  const ratio = 1200 / 900;
-
-  // queremos que ocupe prácticamente toda la pantalla
-  let newW = screenW * 0.98;  // 98% ancho
-  let newH = screenH * 0.98;  // 98% alto
-
-  // ajustamos para mantener la proporción
-  if (newW / newH > ratio) {
-    newW = newH * ratio;
-  } else {
-    newH = newW / ratio;
-  }
-
-  heart.style.width = `${newW}px`;
-  heart.style.height = `${newH}px`;
-}
-
-// ejecutar al cargar y al redimensionar
-window.addEventListener('load', resizeHeart);
-window.addEventListener('resize', resizeHeart);
