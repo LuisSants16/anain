@@ -57,10 +57,6 @@ body{
 
 /* svg corazón */
 .heart{
-  /* Escala por altura pero NUNCA excede el ancho de la pantalla */
-  height: 86svh;
-  max-width: 96vw;
-  aspect-ratio: 1200 / 900; /* mismo viewBox */
   z-index: 2;
   overflow: visible;
 }
@@ -124,4 +120,3 @@ body{
     radial-gradient(2px 2px at 15% 70%, #fff, transparent 60%);
   animation:starsGlow 7s linear infinite; opacity:.5}
 @keyframes starsGlow{0%{opacity:.2}50%{opacity:.7}100%{opacity:.2}}
-
