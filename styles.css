@@ -57,8 +57,10 @@ body{
 
 /* svg corazón */
 .heart{
-  width: 92vmin;           /* base escritorio/tablet */
-  height: auto;
+  /* Escala por altura pero NUNCA excede el ancho de la pantalla */
+  height: 86svh;
+  max-width: 96vw;
+  aspect-ratio: 1200 / 900; /* mismo viewBox */
   z-index: 2;
   overflow: visible;
 }
@@ -123,77 +125,3 @@ body{
   animation:starsGlow 7s linear infinite; opacity:.5}
 @keyframes starsGlow{0%{opacity:.2}50%{opacity:.7}100%{opacity:.2}}
 
-/* ======= Responsive ======= */
-/* Tablet grande */
-@media (max-width: 1024px){
-  .heart{ width:min(820px, 94vw) }
-  .stroke{ stroke-width:14 }
-  .halo{ stroke-width:32; filter:blur(20px) }
-
-  .centerName h1{ font-size:clamp(22px, 4.8vw, 42px) }
-  .glitter{ width:130px; height:130px; margin-top:68px }
-
-  .b1{ width:300px; height:300px }
-  .b2{ width:240px; height:240px }
-  .b3{ width:220px; height:220px }
-  .b4{ width:260px; height:260px }
-}
-
-/* Tablet vertical */
-@media (max-width: 768px){
-  .heart{ width:min(700px, 94vw) }
-  .stroke{ stroke-width:12 }
-  .halo{ stroke-width:28; filter:blur(18px) }
-
-  .centerName h1{ font-size:clamp(20px, 5.6vw, 38px); letter-spacing:.08rem }
-  .glitter{ width:110px; height:110px; margin-top:56px }
-
-  .ear{ stroke-width:3.2 }
-  .kitty .eye{ r:5 }
-  .kitty .mouth{ stroke-width:2.6 }
-  .kitty .whisk{ stroke-width:2.6 }
-
-  .paw{ font-size:20px }
-  .bokeh{ filter:blur(38px) }
-}
-
-/* Móvil */
-/* ===== MÓVIL ===== */
-@media (max-width: 560px){
-
-  /* ===== MÓVIL (ocupa casi toda la pantalla) ===== */
-@media (max-width: 560px){
-  .heart{ width: 98vmin; }               /* casi pantalla completa */
-  .stroke{ stroke-width: 14; }           /* trazo más grueso para no perderse */
-  .halo{ stroke-width: 30; filter: blur(20px); }
-
-  .centerName h1{
-    font-size: clamp(16px, 6.8vw, 28px); /* nombre más pequeño para que no choque */
-    text-shadow: 0 0 12px rgba(255,255,255,.45), 0 0 24px rgba(255,110,199,.28);
-  }
-
-  /* orejitas ligeramente más arriba (opcional) */
-  .ear-left{ transform: translateY(-10px) scale(.92); }
-  .ear-right{ transform: translateY(-10px) scale(.92); }
-
-  /* carita compacta y visible */
-  .kitty .eye{ stroke:#0007; stroke-width:1.2px; }
-  .kitty .mouth{ stroke-width:2.6; }
-  .kitty .whisk{ stroke-width:2.6; }
-
-  /* bokeh más chico para no restar espacio visual */
-  .b1{ width:180px; height:180px }
-  .b2{ width:170px; height:170px }
-  .b3{ width:160px; height:160px }
-  .b4{ width:175px; height:175px }
-}
-
-  /* estrellas un poco más sutiles */
-  #stars{ opacity:.4 }
-}
-
-@media (max-width: 380px){
-  .heart{ width: 100vmin; }   /* ahora sí, 100% del lado corto */
-  .stroke{ stroke-width: 15; }
-  .centerName h1{ font-size: clamp(14px, 7.6vw, 24px); }
-}
