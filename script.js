@@ -47,3 +47,32 @@ window.addEventListener('load', ()=>{
   });
 });
 
+// 💖 Burbujas de corazones
+const bubbleLayer = document.getElementById('bubbles');
+const heartEmojis = ['💖','💙','💜','💗','💛'];
+
+function spawnBubble(){
+  const el = document.createElement('div');
+  el.className = 'bubble-heart';
+  el.textContent = heartEmojis[Math.floor(Math.random()*heartEmojis.length)];
+
+  // posición horizontal aleatoria
+  el.style.left = (Math.random()*100).toFixed(2) + 'vw';
+
+  // variables de animación
+  el.style.setProperty('--dur', (6 + Math.random()*5).toFixed(2) + 's');          // 6–11s
+  el.style.setProperty('--dx',  (Math.random()*20 - 10).toFixed(2) + 'vw');       // deriva -10–+10vw
+  el.style.setProperty('--scale', (0.8 + Math.random()*0.8).toFixed(2));          // 0.8–1.6
+  el.style.setProperty('--rot',  (Math.random()*40 - 20).toFixed(1) + 'deg');     // -20–+20°
+
+  bubbleLayer.appendChild(el);
+  el.addEventListener('animationend', ()=> el.remove());
+}
+
+// lanza una burbuja cada 600 ms
+const bubbleTimer = setInterval(spawnBubble, 600);
+
+// opcional: al tocar/click, suelta 5 de golpe
+bubbleLayer.addEventListener('click', ()=>{
+  for (let i=0;i<5;i++) spawnBubble();
+});
