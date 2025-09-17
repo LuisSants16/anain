@@ -1,13 +1,96 @@
+/* ====== INTRO / TRANSICIÓN ====== */
+.intro{
+  position:fixed; inset:0; z-index:9999;
+  display:grid; place-items:center; overflow:hidden;
+  /* usamos los mismos colores de tu fondo para que combine */
+  background: radial-gradient(1200px 700px at 50% 20%,
+    hsl(calc(var(--h1)*1deg) 72% 22%) 0%,
+    hsl(calc(var(--h2)*1deg) 68% 12%) 55%,
+    hsl(calc(var(--h3)*1deg) 62% 8%) 100%);
+  animation:introFade 5.6s ease forwards;
+}
+.intro-inner{ position:relative; text-align:center; }
+
+.intro-title{
+  margin:0;
+  font-size: clamp(22px, 8vw, 48px);
+  font-weight: 900;
+  letter-spacing:.04em;
+  text-transform: lowercase;
+  background: linear-gradient(90deg,#9be7ff,#ffe08a,#ff9be7,#a78bfa);
+  background-size: 200% auto;
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+  -webkit-text-stroke: 1px rgba(0,0,0,.35);
+  text-shadow: 0 2px 10px rgba(0,0,0,.5), 0 0 24px rgba(255,255,255,.28);
+  opacity:0; transform: translateY(12px) scale(.96);
+  animation: introText 850ms ease-out 250ms forwards, shimmer 2.4s linear infinite 250ms;
+  padding: 20px;
+}
+
+/* destello circular que “abre” la escena */
+.intro-glow{
+  position:absolute; left:50%; top:50%; width:14vmax; height:14vmax;
+  transform:translate(-50%,-50%) scale(.6);
+  border-radius:50%;
+  background: radial-gradient(circle, rgba(255,255,255,.7) 0%, rgba(255,255,255,0) 60%);
+  filter: blur(16px);
+  opacity:0; animation: introPulse 1.2s ease 900ms forwards;
+}
+
+@keyframes introText{
+  0%   { opacity:0; transform:translateY(12px) scale(.96) }
+  60%  { opacity:1 }
+  100% { opacity:1; transform:translateY(0) scale(1) }
+}
+@keyframes shimmer{ 0%{background-position:0% 50%} 100%{background-position:200% 50%} }
+@keyframes introPulse{
+  0%{ opacity:0; transform:translate(-50%,-50%) scale(.6) }
+  60%{ opacity:1; transform:translate(-50%,-50%) scale(1.15) }
+  100%{ opacity:0; transform:translate(-50%,-50%) scale(1.6) }
+}
+@keyframes introFade{
+  0%,70%{ opacity:1 }
+  100%{ opacity:0; visibility:hidden }
+}
+
+/* — Pausamos y ocultamos la escena hasta el reveal — */
+.heart, .centerName, #bubbles, #stars, .paws { opacity:0 }
+.stroke, .halo, .ear { animation-play-state: paused; }
+
+body.show-heart .heart,
+body.show-heart .centerName,
+body.show-heart #bubbles,
+body.show-heart #stars,
+body.show-heart .paws {
+  opacity:1; transition: opacity .6s ease;
+}
+body.show-heart .stroke,
+body.show-heart .halo,
+body.show-heart .ear { animation-play-state: running; }
+
+/* pequeño pop-in del corazón al mostrarse */
+body.show-heart .heart{
+  animation: heartReveal 520ms cubic-bezier(.2,.9,.2,1) 50ms both;
+}
+@keyframes heartReveal{
+  0%{ transform:scale(.96); filter:brightness(.9) }
+  100%{ transform:scale(1); filter:none }
+}
+
+@property --h1 { syntax: '<number>'; initial-value: 270; inherits: true; }
+@property --h2 { syntax: '<number>'; initial-value: 205; inherits: true; }
+@property --h3 { syntax: '<number>'; initial-value: 45;  inherits: true; }
+
 :root{
-  --bg1:#12061a; --bg2:#1b0f2d;
-  --pink:#ff6ec7; --pink2:#ff99e9;
-  --cyan:#4deaff; --cyan2:#00cfff;
-  --lila:#c084fc;
-  --yellow:#ffe066;
-  --ink:#fffafc;
-  --bgA: hsl(290,80%,16%);
-  --bgB: hsl(200,80%,6%);
-  --glow: .5;
+  --h1: 270;
+  --h2: 205;
+  --h3: 45;
+  animation: hueCycle 40s linear infinite;
+}
+
+@keyframes hueCycle{
+  from{ --h1: 270; --h2: 205; --h3: 45;  }
+  to  { --h1: 630; --h2: 565; --h3: 405; }
 }
 
 *{
@@ -16,15 +99,20 @@
   padding: 0;
 }
 
-html,body{height:100%}
+html,body{
+  height:100%
+}
 
 body{
-  margin:0; overflow:hidden; color:var(--ink);
-  background: radial-gradient(1200px 700px at 50% 20%, var(--bgA) 0%, var(--bgB) 100%);
+  margin:0; overflow:hidden; color:#fffafc;
+  background: radial-gradient(1200px 700px at 50% 20%,
+    hsl(calc(var(--h1)*1deg) 72% 22%) 0%,
+    hsl(calc(var(--h2)*1deg) 68% 12%) 55%,
+    hsl(calc(var(--h3)*1deg) 62% 8%) 100%
+  );
   font-family:"Baloo 2", system-ui, sans-serif;
 }
 
-/* escena */
 .scene{
   position: relative;
   width: 100vw;
@@ -33,8 +121,31 @@ body{
   place-items: center;
   overflow: hidden;
 }
+.scene::before{
+  content:"";
+  position:absolute; inset:-12%;
+  z-index:0; pointer-events:none;
+  background-repeat:no-repeat;
+  background-size: 120% 120%, 120% 120%, 120% 120%;
+  background-position: 20% 15%, 80% 25%, 50% 85%;
+  background-image:
+    radial-gradient(40% 35% at 20% 15%,  #7cf6ff22, transparent 60%),
+    radial-gradient(46% 40% at 80% 25%,  #ff9be722, transparent 60%),
+    radial-gradient(50% 45% at 50% 85%,  #ffe08a1e, transparent 60%);
+  filter: blur(36px) saturate(1.15);
+  animation: bgMove 18s ease-in-out infinite alternate,
+             bgPulse 4.6s ease-in-out infinite;
+}
+@keyframes bgMove{
+  0%   { background-position: 20% 15%, 80% 25%, 50% 85%; }
+  50%  { background-position: 28% 20%, 72% 30%, 48% 78%; }
+  100% { background-position: 80% 20%, 20% 30%, 50% 70%; }
+}
+@keyframes bgPulse{
+  0%,100%{ opacity:.55 }
+  50%    { opacity:.92 }
+}
 
-/* bokeh pastel kawaii */
 .bokeh{position:absolute; border-radius:50%; filter:blur(50px); opacity:.3; mix-blend-mode:screen; animation:float 16s ease-in-out infinite}
 .b1{width:340px;height:340px;left:8%;top:12%;background:var(--cyan)}
 .b2{width:280px;height:280px;right:12%;top:16%;background:var(--pink);animation-duration:18s}
@@ -42,19 +153,35 @@ body{
 .b4{width:320px;height:320px;right:14%;bottom:10%;background:var(--yellow);animation-duration:20s}
 @keyframes float{0%,100%{transform:translateY(0) translateX(0)}50%{transform:translateY(-28px) translateX(14px)}}
 
-/* nombre centrado */
 .centerName{position:absolute; inset:0; display:grid; place-items:center; pointer-events:none; z-index:5; text-align:center}
 .centerName h1{
-  margin:0; font-weight:800; text-transform:lowercase;
-  font-size:clamp(28px, 5vw, 44px);
-  background:linear-gradient(90deg,var(--cyan),var(--yellow),var(--pink),var(--lila));
-  -webkit-background-clip:text; background-clip:text; color:transparent;
-  text-shadow:0 0 20px rgba(255,255,255,.5), 0 0 45px rgba(255,110,199,.35);
-  animation:floatName 6s ease-in-out infinite;
+  display:inline-block;
+  margin:0;
+  padding:.22em .6em;
+  border-radius:14px;
+  background: rgba(10, 8, 22, .28);
+  font-size: 24px;
+  font-weight:800;
+  text-transform:lowercase;
+  letter-spacing:.02em;
+
+  background-image: linear-gradient(90deg,#9be7ff,#ffe08a,#ff9be7,#a78bfa);
+  -webkit-background-clip:text; background-clip:text;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(0,0,0,.35);
+  paint-order: stroke fill;
+
+  text-shadow:
+    0 2px 8px rgba(0,0,0,.55),
+    0 0 18px rgba(255,255,255,.28);
+  animation: nameFloat 5.5s ease-in-out infinite;
+}
+@keyframes nameFloat{
+  0%,100%{ transform:translateY(0) }
+  50%{ transform:translateY(-6px) }
 }
 @keyframes floatName{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
 
-/* brillo de estrellas */
 .glitter{position:absolute; width:150px;height:150px; background:
   radial-gradient(4px 4px at 50% 50%, #fff9, transparent 60%),
   radial-gradient(3px 3px at 20% 35%, #fff9, transparent 60%),
@@ -65,21 +192,21 @@ body{
 @keyframes glimmer{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}
 
 .heart{
-  width: 100vw;          /* usa casi todo el ancho de la pantalla */
-  height: 100vw;         /* calcula la altura automáticamente */
+  width: 100vw;
+  height: 100vw;
   display: block;
-  margin: auto;       /* centra horizontal */
+  margin: auto;
 }
 
 .stroke{
-  fill:none; 
+  fill:none;
+  filter: none;
   stroke-width:16; 
   stroke-linecap:round; 
   stroke-linejoin:round;
   stroke-dasharray:1050; 
   stroke-dashoffset:1050;
   animation:draw 3.3s ease forwards, flicker 4s linear infinite 3.3s;
-  filter: drop-shadow(0 0 calc(10px + 24px * var(--glow)) rgba(255,255,255,.35));
 }
 .stroke.cyan{stroke:url(#gradCyan)}
 .stroke.pink{stroke:url(#gradPink)}
@@ -90,17 +217,15 @@ body{
   filter:blur(22px); 
   transform-origin:center; 
   animation:pulse 3.6s ease-in-out infinite 1.2s;
-  filter: blur(22px) brightness(calc(0.7 + var(--glow)));
 }
 @keyframes draw{0%{stroke-dashoffset:1050;opacity:0}10%{opacity:1}100%{stroke-dashoffset:0;opacity:1}}
 @keyframes flicker{0%,19%,21%,23%,80%,100%{filter:drop-shadow(0 0 18px #fff)}20%,22%{filter:drop-shadow(0 0 3px #fff)}}
 @keyframes pulse{0%,100%{transform:scale(1);opacity:.55}50%{transform:scale(1.03);opacity:.9}}
 
-/* orejas y carita kawaii */
 .ear{
-  fill:#ffffff33;                 /* +opacidad del relleno */
-  stroke:#ffffffaa;               /* trazo más fuerte */
-  stroke-width:4;                 /* un poco más grueso */
+  fill:#ffffff33;
+  stroke:#ffffffaa;
+  stroke-width:4;
   filter:drop-shadow(0 0 10px #fff8) drop-shadow(0 0 18px #ff6ec780);
   animation:earGlow 3.5s ease-in-out infinite;
 }
@@ -108,33 +233,27 @@ body{
 @keyframes earGlow{0%,100%{opacity:.8; transform:scale(1)}50%{opacity:1; transform:scale(1.05)}}
 .kitty .eye{
   fill:#fff;
-  stroke:#000;              /* borde negro */
-  stroke-width:1.2px;       /* muy delgado */
+  stroke:#000;
+  stroke-width:1.2px;
   filter:drop-shadow(0 0 6px #fff) drop-shadow(0 0 12px #4deaff80);
 }
-
 .kitty .mouth{
   fill:#fff;
-  stroke:#000;              /* borde negro */
-  stroke-width:1.2px;       /* muy delgado */
-  filter:drop-shadow(0 0 6px #fff) drop-shadow(0 0 12px #4deaff80);
+  stroke:#070707;
+  stroke-width:1.2px;
+  filter:drop-shadow(0 0 6px #ffffff) drop-shadow(0 0 12px #4deaff80);
 }
-
-
 .kitty .whisk{
   fill:#fff;
-  stroke:#000;              /* borde negro */
-  stroke-width:1.2px;       /* muy delgado */
+  stroke:#000;
+  stroke-width:1.2px;
   filter:drop-shadow(0 0 6px #fff) drop-shadow(0 0 12px #4deaff80);
 }
 
-
-/* huellitas */
-.paw{font-size:24px; opacity:.7; animation:pawFloat 5s ease-in-out infinite}
+.paw{font-size:26px; opacity:.7; animation:pawFloat 5s ease-in-out infinite}
 .paws text:nth-child(2){animation-delay:.6s}.paws text:nth-child(3){animation-delay:1.2s}.paws text:nth-child(4){animation-delay:1.8s}
-@keyframes pawFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@keyframes pawFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-40px)}}
 
-/* estrellas fondo */
 #stars{position:absolute; inset:0; z-index:1; pointer-events:none;
   background:
     radial-gradient(2px 2px at 25% 20%, #fff, transparent 60%),
@@ -145,16 +264,15 @@ body{
   animation:starsGlow 7s linear infinite; opacity:.5}
 @keyframes starsGlow{0%{opacity:.2}50%{opacity:.7}100%{opacity:.2}}
 
-/* Burbujas de corazones */
 #bubbles{
   position:absolute; inset:0;
   overflow:hidden; pointer-events:none;
-  z-index:3; /* sobre el halo; el texto tiene z-index mayor */
+  z-index:3;
 }
 
 .bubble-heart{
   position:absolute;
-  bottom:-10vmin;               /* nacen un poco fuera de pantalla */
+  bottom:-10vmin;
   font-size:clamp(18px, 3.2vmin, 28px);
   line-height:1;
   opacity:.9;
@@ -171,3 +289,4 @@ body{
     opacity:0;
   }
 }
+
