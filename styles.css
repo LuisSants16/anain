@@ -15,7 +15,15 @@ body{
 }
 
 /* escena */
-.scene{position:relative; height:100%; width:100%; display:grid; place-items:center; isolation:isolate}
+.scene{
+  position: relative;
+  min-height: 100svh;      /* alto real del viewport en móvil */
+  width: 100%;
+  display: grid;
+  place-items: center;
+  isolation: isolate;
+  padding: 0;              /* sin aire arriba/abajo */
+}
 
 /* bokeh pastel kawaii */
 .bokeh{position:absolute; border-radius:50%; filter:blur(50px); opacity:.3; mix-blend-mode:screen; animation:float 16s ease-in-out infinite}
@@ -48,7 +56,12 @@ body{
 @keyframes glimmer{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}
 
 /* svg corazón */
-.heart{width:min(980px, 94vw); height:auto; z-index:2; overflow:visible}
+.heart{
+  width: 92vmin;           /* base escritorio/tablet */
+  height: auto;
+  z-index: 2;
+  overflow: visible;
+}
 .stroke{
   fill:none; stroke-width:16; stroke-linecap:round; stroke-linejoin:round;
   stroke-dasharray:1050; stroke-dashoffset:1050;
@@ -145,40 +158,42 @@ body{
 }
 
 /* Móvil */
+/* ===== MÓVIL ===== */
 @media (max-width: 560px){
-  .heart{ width:min(520px, 95vw) }
-  .stroke{ stroke-width:10 }
-  .halo{ stroke-width:24; filter:blur(16px) }
 
-  .centerName h1{ font-size:clamp(18px, 7vw, 32px) }
-  .glitter{ width:90px; height:90px; margin-top:48px }
+  /* ===== MÓVIL (ocupa casi toda la pantalla) ===== */
+@media (max-width: 560px){
+  .heart{ width: 98vmin; }               /* casi pantalla completa */
+  .stroke{ stroke-width: 14; }           /* trazo más grueso para no perderse */
+  .halo{ stroke-width: 30; filter: blur(20px); }
 
-  /* orejas un poco más arriba y pequeñas */
-  .ear-left{ transform:translateY(-6px) scale(.92) }
-  .ear-right{ transform:translateY(-6px) scale(.92) }
+  .centerName h1{
+    font-size: clamp(16px, 6.8vw, 28px); /* nombre más pequeño para que no choque */
+    text-shadow: 0 0 12px rgba(255,255,255,.45), 0 0 24px rgba(255,110,199,.28);
+  }
 
-  /* carita compacta */
-  .kitty .eye{ r:4.2 }
-  .kitty .mouth{ stroke-width:2.2 }
-  .kitty .whisk{ stroke-width:2.2 }
+  /* orejitas ligeramente más arriba (opcional) */
+  .ear-left{ transform: translateY(-10px) scale(.92); }
+  .ear-right{ transform: translateY(-10px) scale(.92); }
 
-  /* bokeh más chico */
-  .b1{ width:220px; height:220px }
-  .b2{ width:190px; height:190px }
-  .b3{ width:180px; height:180px }
-  .b4{ width:210px; height:210px }
+  /* carita compacta y visible */
+  .kitty .eye{ stroke:#0007; stroke-width:1.2px; }
+  .kitty .mouth{ stroke-width:2.6; }
+  .kitty .whisk{ stroke-width:2.6; }
 
-  #stars{ opacity:.45 }
+  /* bokeh más chico para no restar espacio visual */
+  .b1{ width:180px; height:180px }
+  .b2{ width:170px; height:170px }
+  .b3{ width:160px; height:160px }
+  .b4{ width:175px; height:175px }
 }
 
-/* Móvil pequeño */
+  /* estrellas un poco más sutiles */
+  #stars{ opacity:.4 }
+}
+
 @media (max-width: 380px){
-  .heart{ width:min(440px, 96vw) }
-  .stroke{ stroke-width:9 }
-  .halo{ stroke-width:22 }
-
-  .centerName h1{ font-size:clamp(16px, 7.8vw, 28px) }
-  .glitter{ width:78px; height:78px; margin-top:42px }
-
-  .paw{ font-size:18px }
+  .heart{ width: 100vmin; }   /* ahora sí, 100% del lado corto */
+  .stroke{ stroke-width: 15; }
+  .centerName h1{ font-size: clamp(14px, 7.6vw, 24px); }
 }
