@@ -5,16 +5,22 @@
   --lila:#c084fc;
   --yellow:#ffe066;
   --ink:#fffafc;
+  --bgA: hsl(290,80%,16%);
+  --bgB: hsl(200,80%,6%);
+  --glow: .5;
 }
+
 *{
   box-sizing:border-box;
   margin: 0;
   padding: 0;
 }
+
 html,body{height:100%}
+
 body{
   margin:0; overflow:hidden; color:var(--ink);
-  background:radial-gradient(1200px 700px at 50% 20%, #2a1143 0%, var(--bg1) 55%, var(--bg2) 100%);
+  background: radial-gradient(1200px 700px at 50% 20%, var(--bgA) 0%, var(--bgB) 100%);
   font-family:"Baloo 2", system-ui, sans-serif;
 }
 
@@ -66,13 +72,26 @@ body{
 }
 
 .stroke{
-  fill:none; stroke-width:16; stroke-linecap:round; stroke-linejoin:round;
-  stroke-dasharray:1050; stroke-dashoffset:1050;
+  fill:none; 
+  stroke-width:16; 
+  stroke-linecap:round; 
+  stroke-linejoin:round;
+  stroke-dasharray:1050; 
+  stroke-dashoffset:1050;
   animation:draw 3.3s ease forwards, flicker 4s linear infinite 3.3s;
+  filter: drop-shadow(0 0 calc(10px + 24px * var(--glow)) rgba(255,255,255,.35));
 }
 .stroke.cyan{stroke:url(#gradCyan)}
 .stroke.pink{stroke:url(#gradPink)}
-.halo{fill:none; stroke-width:38; stroke:#ffffff15; filter:blur(22px); transform-origin:center; animation:pulse 3.6s ease-in-out infinite 1.2s}
+.halo{
+  fill:none; 
+  stroke-width:38; 
+  stroke:#ffffff15; 
+  filter:blur(22px); 
+  transform-origin:center; 
+  animation:pulse 3.6s ease-in-out infinite 1.2s;
+  filter: blur(22px) brightness(calc(0.7 + var(--glow)));
+}
 @keyframes draw{0%{stroke-dashoffset:1050;opacity:0}10%{opacity:1}100%{stroke-dashoffset:0;opacity:1}}
 @keyframes flicker{0%,19%,21%,23%,80%,100%{filter:drop-shadow(0 0 18px #fff)}20%,22%{filter:drop-shadow(0 0 3px #fff)}}
 @keyframes pulse{0%,100%{transform:scale(1);opacity:.55}50%{transform:scale(1.03);opacity:.9}}
