@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Corazón Neón — anain ramos arias</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="scene">
+    <!-- bokeh decorativo -->
+    <div class="bokeh b1"></div>
+    <div class="bokeh b2"></div>
+    <div class="bokeh b3"></div>
+    <div class="bokeh b4"></div>
+
+    <!-- texto central -->
+    <div class="title">
+      <span class="spark">✦</span>
+      <h1>anain ramos arias</h1>
+      <span class="spark">✦</span>
+      <p class="sub">con brillo propio</p>
+    </div>
+
+    <!-- svg con el corazón en dos colores -->
+    <svg class="heart" viewBox="0 0 1200 900" preserveAspectRatio="xMidYMid meet">
+      <!-- filtros de brillo -->
+      <defs>
+        <filter id="glow-strong" x="-50%" y="-50%" width="200%" height="200%">
+          <feGaussianBlur stdDeviation="8" result="blur1"/>
+          <feGaussianBlur stdDeviation="16" in="SourceGraphic" result="blur2"/>
+          <feMerge>
+            <feMergeNode in="blur1"/>
+            <feMergeNode in="blur2"/>
+            <feMergeNode in="SourceGraphic"/>
+          </feMerge>
+        </filter>
+        <linearGradient id="gradPink" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#ff5bd6"/>
+          <stop offset="100%" stop-color="#ff93f9"/>
+        </linearGradient>
+        <linearGradient id="gradCyan" x1="100%" y1="0%" x2="0%" y2="0%">
+          <stop offset="0%" stop-color="#6ee7ff"/>
+          <stop offset="100%" stop-color="#53c8ff"/>
+        </linearGradient>
+      </defs>
+
+      <!-- misma ruta partida virtualmente: lado izquierdo cian y derecho rosado -->
+      <!-- ruta general del corazón -->
+      <path id="heartPath" d="M600,740
+        C 480,660 370,580 310,480
+        C 230,350 290,210 425,190
+        C 510,178 570,220 600,265
+        C 630,220 690,178 775,190
+        C 910,210 970,350 890,480
+        C 830,580 720,660 600,740 Z"
+        fill="none" stroke="transparent" />
+
+      <!-- cian: recorre desde abajo a la izquierda hacia arriba -->
+      <path class="stroke cyan" d="M600,740
+        C 480,660 370,580 310,480
+        C 230,350 290,210 425,190
+        C 510,178 570,220 600,265"
+        filter="url(#glow-strong)" stroke="url(#gradCyan)"/>
+
+      <!-- rosa: desde la parte superior derecha hasta abajo -->
+      <path class="stroke pink" d="M600,265
+        C 630,220 690,178 775,190
+        C 910,210 970,350 890,480
+        C 830,580 720,660 600,740"
+        filter="url(#glow-strong)" stroke="url(#gradPink)"/>
+
+      <!-- halo suave alrededor del corazón completo -->
+      <path class="halo" d="M600,740
+        C 480,660 370,580 310,480
+        C 230,350 290,210 425,190
+        C 510,178 570,220 600,265
+        C 630,220 690,178 775,190
+        C 910,210 970,350 890,480
+        C 830,580 720,660 600,740 Z"/>
+
+      <!-- contenedor de partículas -->
+      <g id="particles"></g>
+    </svg>
+
+    <!-- destellos aleatorios -->
+    <div id="stars"></div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
