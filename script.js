@@ -81,3 +81,94 @@ function spawnBubble(){
 }
 
 const bubbleTimer = setInterval(spawnBubble, 1200);
+
+/* ===== Frases aleatorias cerca del corazón (solo móvil) ===== */
+const phrasesLayer = document.getElementById('phrases');
+const heartEl = document.querySelector('.heart');
+
+/* EDITA aquí tus frases */
+const PHRASES = [
+  "Lindura ✨",
+  "Siempre estare para ti 🐱",
+  "kawaii desu 🌸",
+  "Flaquita hermosa 💕",
+  "te pienso bonito",
+  "Uff Me encantas",
+  "Eres toda mia",
+  "Preciosura",
+  "Morenita xd",
+  "Bella"
+];
+
+/* Posiciona alrededor del corazón: un “anillo” justo por fuera */
+function positionNearHeart(){
+  const sceneRect = document.querySelector('.scene').getBoundingClientRect();
+  const hb = heartEl.getBoundingClientRect();
+
+  // centro del corazón
+  const cx = (hb.left + hb.right) / 2;
+  const cy = (hb.top  + hb.bottom) / 2;
+
+  // aproximamos el borde del corazón con una elipse
+  const a = hb.width  * 0.55;   // semi-eje X
+  const b = hb.height * 0.55;   // semi-eje Y
+
+  const angle = Math.random() * Math.PI * 2;
+  const ring  = 1.05 + Math.random() * 0.25;   // 5–30% por fuera del borde
+
+  let x = cx + Math.cos(angle) * a * ring;
+  let y = cy + Math.sin(angle) * b * ring;
+
+  // evitar que se salga de la escena
+  x = Math.min(sceneRect.right - 10, Math.max(sceneRect.left + 10, x));
+  y = Math.min(sceneRect.bottom - 10, Math.max(sceneRect.top  + 10, y));
+
+  return { left: (x - sceneRect.left) + 'px', top: (y - sceneRect.top) + 'px' };
+}
+
+function spawnPhrase(){
+  if (!phrasesLayer || !PHRASES.length || !heartEl) return;
+
+  const txt = PHRASES[Math.floor(Math.random()*PHRASES.length)];
+  const el = document.createElement('div');
+  el.className = 'phrase';
+  el.textContent = txt;
+
+  // Orientación: SIEMPRE horizontal, con ligera inclinación aleatoria
+  // 70% +/-8°, 20% +/-14°, 10% recta
+  const r = Math.random();
+  let rotDeg = 0;
+  if (r < 0.7)      rotDeg = (Math.random()*16 - 8);    // -8..+8
+  else if (r < .9)  rotDeg = (Math.random()*28 - 14);   // -14..+14
+  el.style.setProperty('--rot', rotDeg.toFixed(1) + 'deg');
+
+  // Posición: cerca del corazón
+  const pos = positionNearHeart();
+  el.style.left = pos.left;
+  el.style.top  = pos.top;
+
+  phrasesLayer.appendChild(el);
+  el.addEventListener('animationend', ()=> el.remove(), { once:true });
+}
+
+/* Mostrar solo en móvil (<= 600px) */
+let phrasesTimer = null;
+const mqMobile = window.matchMedia('(max-width: 600px)');
+
+function updatePhraseScheduler(){
+  if (mqMobile.matches){
+    if (!phrasesTimer){
+      phrasesTimer = setInterval(spawnPhrase, 2000); // una frase cada 2s
+    }
+  } else {
+    if (phrasesTimer){
+      clearInterval(phrasesTimer);
+      phrasesTimer = null;
+    }
+    if (phrasesLayer) phrasesLayer.innerHTML = '';
+  }
+}
+
+updatePhraseScheduler();
+(mqMobile.addEventListener ? mqMobile.addEventListener('change', updatePhraseScheduler)
+                           : mqMobile.addListener(updatePhraseScheduler));
