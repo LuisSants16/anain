@@ -1,0 +1,184 @@
+:root{
+  --bg1:#12061a; --bg2:#1b0f2d;
+  --pink:#ff6ec7; --pink2:#ff99e9;
+  --cyan:#4deaff; --cyan2:#00cfff;
+  --lila:#c084fc;
+  --yellow:#ffe066;
+  --ink:#fffafc;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0; overflow:hidden; color:var(--ink);
+  background:radial-gradient(1200px 700px at 50% 20%, #2a1143 0%, var(--bg1) 55%, var(--bg2) 100%);
+  font-family:"Baloo 2", system-ui, sans-serif;
+}
+
+/* escena */
+.scene{position:relative; height:100%; width:100%; display:grid; place-items:center; isolation:isolate}
+
+/* bokeh pastel kawaii */
+.bokeh{position:absolute; border-radius:50%; filter:blur(50px); opacity:.3; mix-blend-mode:screen; animation:float 16s ease-in-out infinite}
+.b1{width:340px;height:340px;left:8%;top:12%;background:var(--cyan)}
+.b2{width:280px;height:280px;right:12%;top:16%;background:var(--pink);animation-duration:18s}
+.b3{width:260px;height:260px;left:18%;bottom:12%;background:var(--lila);animation-duration:14s}
+.b4{width:320px;height:320px;right:14%;bottom:10%;background:var(--yellow);animation-duration:20s}
+@keyframes float{0%,100%{transform:translateY(0) translateX(0)}50%{transform:translateY(-28px) translateX(14px)}}
+
+/* nombre centrado */
+.centerName{position:absolute; inset:0; display:grid; place-items:center; pointer-events:none; z-index:5; text-align:center}
+.centerName h1{
+  margin:0; font-weight:800; text-transform:lowercase;
+  font-size:clamp(22px, 5vw, 44px);
+  background:linear-gradient(90deg,var(--cyan),var(--yellow),var(--pink),var(--lila));
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+  text-shadow:0 0 20px rgba(255,255,255,.5), 0 0 45px rgba(255,110,199,.35);
+  animation:floatName 6s ease-in-out infinite;
+}
+@keyframes floatName{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+
+/* brillo de estrellas */
+.glitter{position:absolute; width:150px;height:150px; background:
+  radial-gradient(4px 4px at 50% 50%, #fff9, transparent 60%),
+  radial-gradient(3px 3px at 20% 35%, #fff9, transparent 60%),
+  radial-gradient(3px 3px at 80% 65%, #fff9, transparent 60%);
+  filter:drop-shadow(0 0 8px #fff);
+  animation:glimmer 7s linear infinite; opacity:.65; margin-top:80px;
+}
+@keyframes glimmer{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}
+
+/* svg corazón */
+.heart{width:min(980px, 94vw); height:auto; z-index:2; overflow:visible}
+.stroke{
+  fill:none; stroke-width:16; stroke-linecap:round; stroke-linejoin:round;
+  stroke-dasharray:1050; stroke-dashoffset:1050;
+  animation:draw 3.3s ease forwards, flicker 4s linear infinite 3.3s;
+}
+.stroke.cyan{stroke:url(#gradCyan)}
+.stroke.pink{stroke:url(#gradPink)}
+.halo{fill:none; stroke-width:38; stroke:#ffffff15; filter:blur(22px); transform-origin:center; animation:pulse 3.6s ease-in-out infinite 1.2s}
+@keyframes draw{0%{stroke-dashoffset:1050;opacity:0}10%{opacity:1}100%{stroke-dashoffset:0;opacity:1}}
+@keyframes flicker{0%,19%,21%,23%,80%,100%{filter:drop-shadow(0 0 18px #fff)}20%,22%{filter:drop-shadow(0 0 3px #fff)}}
+@keyframes pulse{0%,100%{transform:scale(1);opacity:.55}50%{transform:scale(1.03);opacity:.9}}
+
+/* orejas y carita kawaii */
+.ear{
+  fill:#ffffff33;                 /* +opacidad del relleno */
+  stroke:#ffffffaa;               /* trazo más fuerte */
+  stroke-width:4;                 /* un poco más grueso */
+  filter:drop-shadow(0 0 10px #fff8) drop-shadow(0 0 18px #ff6ec780);
+  animation:earGlow 3.5s ease-in-out infinite;
+}
+
+@keyframes earGlow{0%,100%{opacity:.8; transform:scale(1)}50%{opacity:1; transform:scale(1.05)}}
+.kitty .eye{
+  fill:#fff;
+  stroke:#000;              /* borde negro */
+  stroke-width:1.2px;       /* muy delgado */
+  filter:drop-shadow(0 0 6px #fff) drop-shadow(0 0 12px #4deaff80);
+}
+
+.kitty .mouth{
+  fill:#fff;
+  stroke:#000;              /* borde negro */
+  stroke-width:1.2px;       /* muy delgado */
+  filter:drop-shadow(0 0 6px #fff) drop-shadow(0 0 12px #4deaff80);
+}
+
+
+.kitty .whisk{
+  fill:#fff;
+  stroke:#000;              /* borde negro */
+  stroke-width:1.2px;       /* muy delgado */
+  filter:drop-shadow(0 0 6px #fff) drop-shadow(0 0 12px #4deaff80);
+}
+
+
+/* huellitas */
+.paw{font-size:24px; opacity:.7; animation:pawFloat 5s ease-in-out infinite}
+.paws text:nth-child(2){animation-delay:.6s}.paws text:nth-child(3){animation-delay:1.2s}.paws text:nth-child(4){animation-delay:1.8s}
+@keyframes pawFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+
+/* estrellas fondo */
+#stars{position:absolute; inset:0; z-index:1; pointer-events:none;
+  background:
+    radial-gradient(2px 2px at 25% 20%, #fff, transparent 60%),
+    radial-gradient(2px 2px at 70% 30%, #fff, transparent 60%),
+    radial-gradient(2px 2px at 40% 80%, #fff, transparent 60%),
+    radial-gradient(2px 2px at 85% 60%, #fff, transparent 60%),
+    radial-gradient(2px 2px at 15% 70%, #fff, transparent 60%);
+  animation:starsGlow 7s linear infinite; opacity:.5}
+@keyframes starsGlow{0%{opacity:.2}50%{opacity:.7}100%{opacity:.2}}
+
+/* ======= Responsive ======= */
+/* Tablet grande */
+@media (max-width: 1024px){
+  .heart{ width:min(820px, 94vw) }
+  .stroke{ stroke-width:14 }
+  .halo{ stroke-width:32; filter:blur(20px) }
+
+  .centerName h1{ font-size:clamp(22px, 4.8vw, 42px) }
+  .glitter{ width:130px; height:130px; margin-top:68px }
+
+  .b1{ width:300px; height:300px }
+  .b2{ width:240px; height:240px }
+  .b3{ width:220px; height:220px }
+  .b4{ width:260px; height:260px }
+}
+
+/* Tablet vertical */
+@media (max-width: 768px){
+  .heart{ width:min(700px, 94vw) }
+  .stroke{ stroke-width:12 }
+  .halo{ stroke-width:28; filter:blur(18px) }
+
+  .centerName h1{ font-size:clamp(20px, 5.6vw, 38px); letter-spacing:.08rem }
+  .glitter{ width:110px; height:110px; margin-top:56px }
+
+  .ear{ stroke-width:3.2 }
+  .kitty .eye{ r:5 }
+  .kitty .mouth{ stroke-width:2.6 }
+  .kitty .whisk{ stroke-width:2.6 }
+
+  .paw{ font-size:20px }
+  .bokeh{ filter:blur(38px) }
+}
+
+/* Móvil */
+@media (max-width: 560px){
+  .heart{ width:min(520px, 95vw) }
+  .stroke{ stroke-width:10 }
+  .halo{ stroke-width:24; filter:blur(16px) }
+
+  .centerName h1{ font-size:clamp(18px, 7vw, 32px) }
+  .glitter{ width:90px; height:90px; margin-top:48px }
+
+  /* orejas un poco más arriba y pequeñas */
+  .ear-left{ transform:translateY(-6px) scale(.92) }
+  .ear-right{ transform:translateY(-6px) scale(.92) }
+
+  /* carita compacta */
+  .kitty .eye{ r:4.2 }
+  .kitty .mouth{ stroke-width:2.2 }
+  .kitty .whisk{ stroke-width:2.2 }
+
+  /* bokeh más chico */
+  .b1{ width:220px; height:220px }
+  .b2{ width:190px; height:190px }
+  .b3{ width:180px; height:180px }
+  .b4{ width:210px; height:210px }
+
+  #stars{ opacity:.45 }
+}
+
+/* Móvil pequeño */
+@media (max-width: 380px){
+  .heart{ width:min(440px, 96vw) }
+  .stroke{ stroke-width:9 }
+  .halo{ stroke-width:22 }
+
+  .centerName h1{ font-size:clamp(16px, 7.8vw, 28px) }
+  .glitter{ width:78px; height:78px; margin-top:42px }
+
+  .paw{ font-size:18px }
+}

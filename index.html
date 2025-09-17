@@ -3,53 +3,47 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Corazón Neón — anain ramos arias</title>
+  <title>Corazón Kawaii — anain ramos arias</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;800&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <div class="scene">
-    <!-- bokeh decorativo -->
+    <!-- bokeh pastel -->
     <div class="bokeh b1"></div>
     <div class="bokeh b2"></div>
     <div class="bokeh b3"></div>
     <div class="bokeh b4"></div>
 
-    <!-- texto central -->
-    <div class="title">
-      <span class="spark">✦</span>
+    <!-- nombre centrado -->
+    <div class="centerName">
       <h1>anain ramos arias</h1>
-      <span class="spark">✦</span>
-      <p class="sub">con brillo propio</p>
+      <div class="glitter"></div>
     </div>
 
-    <!-- svg con el corazón en dos colores -->
+    <!-- SVG corazón con orejitas y capa de partículas -->
     <svg class="heart" viewBox="0 0 1200 900" preserveAspectRatio="xMidYMid meet">
-      <!-- filtros de brillo -->
       <defs>
-        <filter id="glow-strong" x="-50%" y="-50%" width="200%" height="200%">
-          <feGaussianBlur stdDeviation="8" result="blur1"/>
-          <feGaussianBlur stdDeviation="16" in="SourceGraphic" result="blur2"/>
+        <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+          <feGaussianBlur stdDeviation="8" result="b1"/>
           <feMerge>
-            <feMergeNode in="blur1"/>
-            <feMergeNode in="blur2"/>
+            <feMergeNode in="b1"/>
             <feMergeNode in="SourceGraphic"/>
           </feMerge>
         </filter>
         <linearGradient id="gradPink" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" stop-color="#ff5bd6"/>
-          <stop offset="100%" stop-color="#ff93f9"/>
+          <stop offset="0%" stop-color="#ff7eea"/>
+          <stop offset="100%" stop-color="#ffa0f5"/>
         </linearGradient>
         <linearGradient id="gradCyan" x1="100%" y1="0%" x2="0%" y2="0%">
-          <stop offset="0%" stop-color="#6ee7ff"/>
-          <stop offset="100%" stop-color="#53c8ff"/>
+          <stop offset="0%" stop-color="#8ef3ff"/>
+          <stop offset="100%" stop-color="#6edbff"/>
         </linearGradient>
       </defs>
 
-      <!-- misma ruta partida virtualmente: lado izquierdo cian y derecho rosado -->
-      <!-- ruta general del corazón -->
+      <!-- ruta completa (para partículas) -->
       <path id="heartPath" d="M600,740
         C 480,660 370,580 310,480
         C 230,350 290,210 425,190
@@ -59,21 +53,21 @@
         C 830,580 720,660 600,740 Z"
         fill="none" stroke="transparent" />
 
-      <!-- cian: recorre desde abajo a la izquierda hacia arriba -->
+      <!-- lado cian -->
       <path class="stroke cyan" d="M600,740
         C 480,660 370,580 310,480
         C 230,350 290,210 425,190
         C 510,178 570,220 600,265"
-        filter="url(#glow-strong)" stroke="url(#gradCyan)"/>
+        stroke="url(#gradCyan)" filter="url(#glow)"/>
 
-      <!-- rosa: desde la parte superior derecha hasta abajo -->
+      <!-- lado rosa -->
       <path class="stroke pink" d="M600,265
         C 630,220 690,178 775,190
         C 910,210 970,350 890,480
         C 830,580 720,660 600,740"
-        filter="url(#glow-strong)" stroke="url(#gradPink)"/>
+        stroke="url(#gradPink)" filter="url(#glow)"/>
 
-      <!-- halo suave alrededor del corazón completo -->
+      <!-- halo general -->
       <path class="halo" d="M600,740
         C 480,660 370,580 310,480
         C 230,350 290,210 425,190
@@ -82,11 +76,35 @@
         C 910,210 970,350 890,480
         C 830,580 720,660 600,740 Z"/>
 
-      <!-- contenedor de partículas -->
+      <!-- orejitas kawaii -->
+      <path class="ear ear-left" d="M470,160 L420,70 L535,95 Z" />
+      <path class="ear ear-right" d="M730,160 L665,95 L780,70 Z" />
+
+      <!-- carita gato (suave) -->
+      <g class="kitty" transform="translate(0,8)">
+        <circle cx="600" cy="720" r="1" fill="transparent"/>
+        <circle class="eye" cx="565" cy="708" r="6"/>
+        <circle class="eye" cx="635" cy="708" r="6"/>
+        <path class="mouth" d="M585,720 Q600,732 615,720" />
+        <path class="whisk" d="M540,710 L515,705" />
+        <path class="whisk" d="M540,718 L510,720" />
+        <path class="whisk" d="M660,710 L685,705" />
+        <path class="whisk" d="M660,718 L690,720" />
+      </g>
+
+      <!-- partículas -->
       <g id="particles"></g>
+
+      <!-- huellitas -->
+      <g class="paws">
+        <text x="280" y="520" class="paw">🐾</text>
+        <text x="920" y="520" class="paw">🐾</text>
+        <text x="350" y="260" class="paw">🐾</text>
+        <text x="850" y="260" class="paw">🐾</text>
+      </g>
     </svg>
 
-    <!-- destellos aleatorios -->
+    <!-- estrellitas -->
     <div id="stars"></div>
   </div>
 
